@@ -15,15 +15,16 @@ public record DealRequestDTO(
         String fromCurrencyIsoCode,
 
         @NotBlank(message = "To currency ISO code is mandatory")
-        @Pattern(regexp = "^[A-Z]{3}$", message = "To currency ISO code must be exactly 3 uppercase letters") String toCurrencyIsoCode,
+        @Pattern(regexp = "^[A-Z]{3}$", message = "To currency ISO code must be exactly 3 uppercase letters")
+        String toCurrencyIsoCode,
 
         @NotNull(message = "Deal timestamp is mandatory")
         @PastOrPresent(message = "Deal timestamp cannot be in the future")
-        Instant dealTimestamp,
+        Instant Timestamp,
 
         @NotNull(message = "Amount is mandatory")
         @Positive(message = "Amount must be a positive value")
-        BigDecimal dealAmount
+        BigDecimal amount
 
 
 ) {
