@@ -20,7 +20,7 @@ public record DealRequestDTO(
 
         @NotNull(message = "Deal timestamp is mandatory")
         @PastOrPresent(message = "Deal timestamp cannot be in the future")
-        Instant Timestamp,
+        Instant timestamp,
 
         @NotNull(message = "Amount is mandatory")
         @Positive(message = "Amount must be a positive value")
