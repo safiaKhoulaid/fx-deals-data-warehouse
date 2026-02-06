@@ -26,23 +26,23 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(DealController.class) // 1. كنحملو غير الـ Controller بوحدو
+@WebMvcTest(DealController.class) 
 class DealControllerTest {
 
     @Autowired
-    private MockMvc mockMvc; // الأداة باش نصيفطو Request
+    private MockMvc mockMvc; 
 
     @MockBean
-    private IDealService dealService; // كنكذبوا على السيرفيس
+    private IDealService dealService; 
 
     @MockBean
-    private CsvParser csvParser; // كنكذبوا على الـ Parser
+    private CsvParser csvParser; 
 
-    // --- Test 1: JSON Endpoint ---
+    
     @Test
     @DisplayName("POST /api/deals - Should import JSON list successfully")
     void shouldImportJsonDeals() throws Exception {
-        // Arrange
+        
         ImportReportDTO mockReport = new ImportReportDTO(1, 1, 0, Collections.emptyList());
         when(dealService.importDeals(anyList())).thenReturn(mockReport);
 
@@ -58,36 +58,36 @@ class DealControllerTest {
                 ]
                 """;
 
-        // Act & Assert
+        
         mockMvc.perform(post("/api/deals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonContent))
-                .andExpect(status().isOk()) // كنتسناو 200 OK
-                .andExpect(jsonPath("$.successCount").value(1)); // كنتسناو التقرير يرجع 1
+                .andExpect(status().isOk()) 
+                .andExpect(jsonPath("$.successCount").value(1)); 
     }
 
-    // --- Test 2: CSV Endpoint ---
+    
     @Test
     @DisplayName("POST /api/deals/upload - Should upload CSV file successfully")
     void shouldUploadCsvFile() throws Exception {
-        // Arrange
+        
         MockMultipartFile file = new MockMultipartFile(
-                "file",           // سمية الـ Parameter
-                "deals.csv",      // سمية الملف
-                "text/csv",       // النوع
-                "header...".getBytes() // المحتوى (ماكيهمش حيت غانموكيوه)
+                "file",           
+                "deals.csv",      
+                "text/csv",       
+                "header...".getBytes() 
         );
 
-        // كنقولو للـ Parser: "إلا جاك شي ملف، غير رد ليا ليستة فيها Deal واحد"
+        
         List<DealRequestDTO> mockDeals = List.of(
                 new DealRequestDTO("D1", "USD", "EUR", Instant.now(), BigDecimal.TEN)
         );
         when(csvParser.parseDeals(any())).thenReturn(mockDeals);
 
-        // كنقولو للـ Service: "إلا جاتك ليستة، رد ليا تقرير ناجح"
+        
         when(dealService.importDeals(any())).thenReturn(new ImportReportDTO(1, 1, 0, Collections.emptyList()));
 
-        // Act & Assert
+        
         mockMvc.perform(multipart("/api/deals/upload").file(file))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalItems").value(1));

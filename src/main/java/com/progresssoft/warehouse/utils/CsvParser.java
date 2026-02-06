@@ -20,7 +20,7 @@ public class CsvParser {
     public List<DealRequestDTO> parseDeals(MultipartFile file) {
 
         if (file.isEmpty()) {
-            throw new CsvImportException("Cannot process an empty CSV file."); // Throw hna
+            throw new CsvImportException("Cannot process an empty CSV file.");
         }
 
         try (var reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {

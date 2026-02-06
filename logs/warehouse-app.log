@@ -1,0 +1,93 @@
+2026-02-06T18:36:29.370Z  INFO 1 --- [main] c.p.w.ClusteredDataWarehouseApplication  : Starting ClusteredDataWarehouseApplication v0.0.1-SNAPSHOT using Java 17.0.18 with PID 1 (/app/app.jar started by spring in /app)
+2026-02-06T18:36:29.382Z  INFO 1 --- [main] c.p.w.ClusteredDataWarehouseApplication  : No active profile set, falling back to 1 default profile: "default"
+2026-02-06T18:36:31.062Z  INFO 1 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-06T18:36:31.213Z  INFO 1 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 106 ms. Found 1 JPA repository interface.
+2026-02-06T18:36:32.157Z  INFO 1 --- [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-02-06T18:36:32.224Z  INFO 1 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-06T18:36:32.227Z  INFO 1 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2026-02-06T18:36:32.308Z  INFO 1 --- [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2796 ms
+2026-02-06T18:36:32.758Z  INFO 1 --- [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-02-06T18:36:32.900Z  INFO 1 --- [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.1.Final
+2026-02-06T18:36:34.155Z  INFO 1 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-06T18:36:34.224Z  INFO 1 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-06T18:36:34.678Z  INFO 1 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@78d6c244
+2026-02-06T18:36:34.682Z  INFO 1 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-06T18:36:34.783Z  WARN 1 --- [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-06T18:36:34.856Z  INFO 1 --- [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://postgres:5432/bloomberg_warehouse]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.15
+	Default catalog/schema: bloomberg_warehouse/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-06T18:36:36.805Z  INFO 1 --- [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-06T18:36:36.911Z  INFO 1 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-06T18:36:37.101Z  INFO 1 --- [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-06T18:36:38.256Z  WARN 1 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-06T18:36:39.114Z  INFO 1 --- [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-02-06T18:36:39.132Z  INFO 1 --- [main] c.p.w.ClusteredDataWarehouseApplication  : Started ClusteredDataWarehouseApplication in 11.369 seconds (process running for 13.432)
+2026-02-06T18:49:42.979Z  INFO 1 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-06T18:49:43.076Z  INFO 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-06T18:49:43.496Z  INFO 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 406 ms
+2026-02-06T18:49:47.817Z  INFO 1 --- [http-nio-8080-exec-2] c.p.w.service.impl.DealServiceImpl       : Starting processing of 3 deals
+2026-02-06T18:49:50.093Z  INFO 1 --- [http-nio-8080-exec-2] c.p.w.service.impl.DealServiceImpl       : Successfully saved deal: deal-ref-001
+2026-02-06T18:49:50.109Z ERROR 1 --- [http-nio-8080-exec-2] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal deal-ref-003: Invalid ISO Currency Code 
+2026-02-06T18:49:50.110Z  INFO 1 --- [http-nio-8080-exec-2] c.p.w.service.impl.DealServiceImpl       : Finished processing batch.
+2026-02-06T20:10:38.842Z  WARN 1 --- [http-nio-8080-exec-4] c.p.warehouse.utils.CsvParser            : Skipping malformed line (insufficient columns ) : 1005-missing-amt,MAD,EUR,2023-11-01T10:15:00Z,
+2026-02-06T20:10:38.866Z ERROR 1 --- [http-nio-8080-exec-4] c.p.warehouse.utils.CsvParser            : Skipping row due to parsing error: [1012-text-in-num,EUR,GBP,2023-11-01T10:50:00Z,OneHundred] - Reason: Character O is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+2026-02-06T20:10:38.869Z ERROR 1 --- [http-nio-8080-exec-4] c.p.warehouse.utils.CsvParser            : Skipping row due to parsing error: [1013-bad-date-fmt,USD,MAD,01/11/2023 10:55,300.00] - Reason: Text '01/11/2023 10:55' could not be parsed at index 0
+2026-02-06T20:10:38.876Z ERROR 1 --- [http-nio-8080-exec-4] c.p.warehouse.utils.CsvParser            : Skipping row due to parsing error: [1014-invalid-date,GBP,EUR,2023-02-30T11:00:00Z,400.00] - Reason: Text '2023-02-30T11:00:00Z' could not be parsed at index 0
+2026-02-06T20:10:38.878Z ERROR 1 --- [http-nio-8080-exec-4] c.p.warehouse.utils.CsvParser            : Skipping row due to parsing error: [1016-sqli-union,' UNION SELECT 1, user(), 3, 4 --,MAD,2023-11-01T11:10:00Z,600.00] - Reason: Text '3' could not be parsed at index 0
+2026-02-06T20:10:38.884Z  WARN 1 --- [http-nio-8080-exec-4] c.p.warehouse.utils.CsvParser            : Skipping malformed line (insufficient columns ) : 1033-wrong-sep,USD;EUR;2023-11-01T12:35:00Z;1300.00,
+2026-02-06T20:10:38.888Z ERROR 1 --- [http-nio-8080-exec-4] c.p.warehouse.utils.CsvParser            : Skipping row due to parsing error: [1035-no-id,,EUR,MAD,2023-11-01T12:45:00Z,1500.00] - Reason: Text 'MAD' could not be parsed at index 0
+2026-02-06T20:10:38.892Z ERROR 1 --- [http-nio-8080-exec-4] c.p.warehouse.utils.CsvParser            : Skipping row due to parsing error: [1036-float-comma,USD,EUR,2023-11-01T12:50:00Z,"1,500.00"] - Reason: Character " is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+2026-02-06T20:10:38.901Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Starting processing of 32 deals
+2026-02-06T20:10:39.285Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Successfully saved deal: 1001-valid-uuid-v4
+2026-02-06T20:10:39.298Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Successfully saved deal: 1002-valid-uuid-v4
+2026-02-06T20:10:39.309Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Successfully saved deal: 1003-dupl-icate-id
+2026-02-06T20:10:39.315Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1006-missing-curr: From currency ISO code is mandatory
+2026-02-06T20:10:39.318Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1007-same-curr: From and To currencies must be different
+2026-02-06T20:10:39.322Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1008-negative: Amount must be a positive value
+2026-02-06T20:10:39.327Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1009-zero-val: Amount must be a positive value
+2026-02-06T20:10:39.458Z  WARN 1 --- [http-nio-8080-exec-4] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 22003
+2026-02-06T20:10:39.462Z  WARN 1 --- [http-nio-8080-exec-4] org.hibernate.orm.jdbc.error             : ERROR: numeric field overflow
+  Detail: A field with precision 19, scale 4 must round to an absolute value less than 10^15.
+2026-02-06T20:10:39.564Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Failed to save deal 1010-huge-num: could not execute statement [ERROR: numeric field overflow
+  Detail: A field with precision 19, scale 4 must round to an absolute value less than 10^15.] [insert into fx_deals (deal_amount,deal_unique_id,from_currency_iso,deal_timestamp,to_currency_iso) values (?,?,?,?,?)]; SQL [insert into fx_deals (deal_amount,deal_unique_id,from_currency_iso,deal_timestamp,to_currency_iso) values (?,?,?,?,?)]
+2026-02-06T20:10:39.587Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Successfully saved deal: 1011-tiny-num
+2026-02-06T20:10:39.591Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1015-sqli-classic: Invalid ISO Currency Code 
+2026-02-06T20:10:39.593Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1017-xss-script: Invalid ISO Currency Code 
+2026-02-06T20:10:39.595Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1018-xss-img: Invalid ISO Currency Code 
+2026-02-06T20:10:39.599Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1019-cmd-inject: From currency ISO code must be exctly 3 characters
+2026-02-06T20:10:39.602Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1020-overflow-str: Invalid ISO Currency Code 
+2026-02-06T20:10:39.605Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1021-csv-inject: From currency ISO code must be exctly 3 characters
+2026-02-06T20:10:39.608Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1022-unicode: Invalid ISO Currency Code 
+2026-02-06T20:10:39.622Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Successfully saved deal: 1023-emoji
+2026-02-06T20:10:39.638Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Successfully saved deal: 1024-spaces
+2026-02-06T20:10:39.651Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Successfully saved deal: 1025-lower-case
+2026-02-06T20:10:39.656Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1026-special-char: Invalid ISO Currency Code 
+2026-02-06T20:10:39.662Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1027-null-str: From and To currencies must be different
+2026-02-06T20:10:39.667Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1028-bool-str: Invalid ISO Currency Code 
+2026-02-06T20:10:39.682Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Successfully saved deal: 1029-scinote
+2026-02-06T20:10:39.684Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1030-json-body: From currency ISO code must be exctly 3 characters
+2026-02-06T20:10:39.687Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1031-future-date: Deal timestamp cannot be in the future
+2026-02-06T20:10:39.700Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Successfully saved deal: 1032-ancient-date
+2026-02-06T20:10:39.711Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Successfully saved deal: 1034-extra-col
+2026-02-06T20:10:39.715Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1037-currency-sym: From currency ISO code must be exctly 3 characters
+2026-02-06T20:10:39.717Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1038-html-entity: To currency ISO code must be exactly 3  letters
+2026-02-06T20:10:39.721Z ERROR 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal 1039-path-trav: Invalid ISO Currency Code 
+2026-02-06T20:10:39.733Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Successfully saved deal: 1040-valid-end
+2026-02-06T20:10:39.735Z  INFO 1 --- [http-nio-8080-exec-4] c.p.w.service.impl.DealServiceImpl       : Finished processing batch.
+2026-02-06T20:13:15.274Z  INFO 1 --- [http-nio-8080-exec-9] c.p.w.service.impl.DealServiceImpl       : Starting processing of 3 deals
+2026-02-06T20:13:15.299Z ERROR 1 --- [http-nio-8080-exec-9] c.p.w.service.impl.DealServiceImpl       : Validation failed for deal deal-ref-003: Invalid ISO Currency Code 
+2026-02-06T20:13:15.304Z  INFO 1 --- [http-nio-8080-exec-9] c.p.w.service.impl.DealServiceImpl       : Finished processing batch.
+2026-02-06T20:41:41.166Z  INFO 1 --- [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-06T20:41:41.299Z  INFO 1 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-02-06T20:41:41.443Z  INFO 1 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-06T20:41:41.735Z  INFO 1 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-02-06T20:41:41.807Z  INFO 1 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

@@ -12,10 +12,7 @@ import java.util.Set;
 @Repository
 public interface DealRepository extends JpaRepository<Deal, Long> {
 
-    boolean existsByDealUniqueId(String dealUniqueId);
-
     @Query("SELECT d.dealUniqueId FROM Deal d WHERE d.dealUniqueId IN :ids")
     Set<String> findExistingIds(@Param("ids") List<String> ids);
-
 
 }
