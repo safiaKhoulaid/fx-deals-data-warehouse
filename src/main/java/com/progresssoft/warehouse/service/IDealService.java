@@ -9,7 +9,7 @@ import java.util.List;
  * Follows SRP by focusing only on data validation and persistence.
  */
 
-public interface DealService {
+public interface IDealService {
 
     /**
      * Processes a list of deals, ensuring idempotency and resilience (No Rollback).
