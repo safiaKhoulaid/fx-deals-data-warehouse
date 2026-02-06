@@ -1,11 +1,12 @@
 package com.progresssoft.warehouse.dto;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public record ImportReportDTO(
-        int totalItems,
-        int successCount,
-        int duplicateCount,
+        AtomicInteger totalItems,
+        AtomicInteger successCount,
+        AtomicInteger duplicateCount,
         List<DealRequestDTO> failedDails
 ) {
 }
