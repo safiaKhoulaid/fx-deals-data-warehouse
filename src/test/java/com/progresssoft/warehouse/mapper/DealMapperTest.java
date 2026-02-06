@@ -12,20 +12,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DealMapperTest {
 
-    // كنجيبو النسخة ديال الماپر (MapStruct)
+    
     private final DealMapper mapper = Mappers.getMapper(DealMapper.class);
 
     @Test
     void shouldMapDtoToEntityCorrectly() {
-        // Arrange
+        
         DealRequestDTO dto = new DealRequestDTO(
                 "DEAL-001", "USD", "JOD", Instant.now(), BigDecimal.valueOf(100.50)
         );
 
-        // Act
+        
         Deal entity = mapper.toEntity(dto);
 
-        // Assert
+        
         assertNotNull(entity);
         assertEquals(dto.dealUniqueId(), entity.getDealUniqueId());
         assertEquals(dto.fromCurrencyIsoCode(), entity.getFromCurrencyIsoCode());

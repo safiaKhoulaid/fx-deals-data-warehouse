@@ -41,8 +41,8 @@ class DifferentCurrenciesValidatorTest {
 
     @Test
     void shouldHandleNullValuesGracefully() {
-        // سيناريو: واحد فيهم null (الـ @NotNull هي اللي غاتحبسو، ماشي هذا)
+        
         DealRequestDTO dto = new DealRequestDTO("1", "USD", null, Instant.now(), BigDecimal.TEN);
-        assertTrue(validator.isValid(dto, context)); // كيرجع true حيت ماشي مسؤوليتو
+        assertTrue(validator.isValid(dto, context)); 
     }
 }

@@ -14,7 +14,7 @@ class GlobalExceptionHandlerTest {
     void shouldHandleRuntimeException() {
         RuntimeException ex = new RuntimeException("Something went wrong");
 
-        ProblemDetail response = handler.handleRuntimeException(ex); // سمية الميثود اللي عندك
+        ProblemDetail response = handler.handleRuntimeException(ex); 
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
         assertEquals("Something went wrong", response.getDetail());
@@ -24,7 +24,7 @@ class GlobalExceptionHandlerTest {
     void shouldHandleGlobalException() {
         Exception ex = new Exception("Unexpected error");
 
-        ProblemDetail response = handler.handleGlobalError(ex); // سمية الميثود اللي عندك
+        ProblemDetail response = handler.handleGlobalError(ex); 
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
         assertEquals("An unexpected internal error occurred.", response.getDetail());

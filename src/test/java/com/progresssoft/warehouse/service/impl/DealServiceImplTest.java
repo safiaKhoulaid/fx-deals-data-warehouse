@@ -46,7 +46,7 @@ class DealServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        // نوجدو داتا نقية قبل كل تيست
+        
         validDealDTO = new DealRequestDTO(
                 "DEAL-001", "USD", "JOD", Instant.now(), BigDecimal.valueOf(1000)
         );
@@ -54,11 +54,11 @@ class DealServiceImplTest {
         validDealEntity.setDealUniqueId("DEAL-001");
     }
 
-    // 1. Happy Path: كلشي داز مزيان
+    
     @Test
     @DisplayName("Should import valid deal successfully")
     void importDeals_Success() {
-        // Mocking: ضروري نرجعو HashSet باش تكون قابلة للتعديل (Mutable) حيت عندك existingIds.add()
+        
         when(dealRepository.findExistingIds(any())).thenReturn(new HashSet<>());
         when(validator.validate(any(DealRequestDTO.class))).thenReturn(Collections.emptySet());
         when(dealMapper.toEntity(any())).thenReturn(validDealEntity);
@@ -72,11 +72,11 @@ class DealServiceImplTest {
         verify(dealRepository, times(1)).save(any(Deal.class));
     }
 
-    // 2. Duplicate Check: الـ Deal ديجا كاين فـ DB
+    
     @Test
     @DisplayName("Should detect duplicate if ID exists in DB")
     void importDeals_DuplicateInDB() {
-        // Mocking: كنرجعو Set فيها الـ ID باش السيرفيس يعرفو كاين
+        
         Set<String> existing = new HashSet<>();
         existing.add("DEAL-001");
         when(dealRepository.findExistingIds(any())).thenReturn(existing);
@@ -87,23 +87,23 @@ class DealServiceImplTest {
         assertEquals(1, report.duplicateCount());
         assertEquals(1, report.failedDeals().size());
 
-        // التحقق من الميساج اللي درتي فـ الكود: "Deal exists"
-        assertEquals("Deal exists", report.failedDeals().get(0).failureReason()); // أو .reason() حسب DTO ديالك
+        
+        assertEquals("Deal exists", report.failedDeals().get(0).failureReason()); 
 
         verify(dealRepository, never()).save(any());
     }
 
-    // 3. Validation Error: مشكل فـ الداتا (Validation Failed)
+    
     @Test
     @DisplayName("Should fail if validation returns errors")
     void importDeals_ValidationError() {
         when(dealRepository.findExistingIds(any())).thenReturn(new HashSet<>());
 
-        // Mocking Violation
+        
         ConstraintViolation<DealRequestDTO> violation = mock(ConstraintViolation.class);
         when(violation.getMessage()).thenReturn("Invalid Currency");
 
-        // استعملنا any(DealRequestDTO.class) باش نتفاداو مشكل الـ Generics
+        
         when(validator.validate(any(DealRequestDTO.class))).thenReturn(Set.of(violation));
 
         ImportReportDTO report = dealService.importDeals(List.of(validDealDTO));
@@ -115,7 +115,7 @@ class DealServiceImplTest {
         verify(dealRepository, never()).save(any());
     }
 
-    // 4. Exception Handling: خطأ غير متوقع (مثلاً DB طاحت)
+    
     @Test
     @DisplayName("Should handle runtime exceptions gracefully")
     void importDeals_RuntimeException() {
@@ -123,7 +123,7 @@ class DealServiceImplTest {
         when(validator.validate(any(DealRequestDTO.class))).thenReturn(Collections.emptySet());
         when(dealMapper.toEntity(any())).thenReturn(validDealEntity);
 
-        // كنفرضو خطأ فـ Save
+        
         doThrow(new RuntimeException("DB Connection Error")).when(dealRepository).save(any());
 
         ImportReportDTO report = dealService.importDeals(List.of(validDealDTO));
@@ -133,27 +133,27 @@ class DealServiceImplTest {
         assertTrue(report.failedDeals().get(0).failureReason().contains("DB Connection Error"));
     }
 
-    // 5. Batch Logic: تكرار داخل نفس الملف (Smart Check)
+    
     @Test
     @DisplayName("Should handle duplicates within the same batch")
     void importDeals_DuplicateInBatch() {
-        // السيناريو: عندنا 2 صفقات بنفس الـ ID فـ نفس الليستة
+        
         List<DealRequestDTO> batch = List.of(validDealDTO, validDealDTO);
 
-        when(dealRepository.findExistingIds(any())).thenReturn(new HashSet<>()); // DB خاوية فـ الأول
+        when(dealRepository.findExistingIds(any())).thenReturn(new HashSet<>()); 
         when(validator.validate(any(DealRequestDTO.class))).thenReturn(Collections.emptySet());
         when(dealMapper.toEntity(any())).thenReturn(validDealEntity);
 
         ImportReportDTO report = dealService.importDeals(batch);
 
-        // النتيجة:
-        // الأولى دازت وتزادت لـ existingIds (حيت درتي existingIds.add)
-        // الثانية ترفضات حيت لقات راسها فـ existingIds
+        
+        
+        
         assertEquals(1, report.successCount());
         assertEquals(1, report.duplicateCount());
         assertEquals(2, report.totalItems());
-        assertEquals(1, report.failedDeals().size()); // الثانية فشلات
+        assertEquals(1, report.failedDeals().size()); 
 
-        verify(dealRepository, times(1)).save(any()); // Save تعيطات مرة وحدة
+        verify(dealRepository, times(1)).save(any()); 
     }
 }
