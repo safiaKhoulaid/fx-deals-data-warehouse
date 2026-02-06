@@ -19,7 +19,7 @@ public record DealRequestDTO(
         String fromCurrencyIsoCode,
 
         @NotBlank(message = "To currency ISO code is mandatory")
-        @Pattern(regexp = "^[A-Z]{3}$", message = "To currency ISO code must be exactly 3 uppercase letters")
+        @Size(min = 3, max = 3, message = "To currency ISO code must be exactly 3  letters")
         @IsoCode
         String toCurrencyIsoCode,
 
@@ -33,4 +33,8 @@ public record DealRequestDTO(
 
 
 ) {
+    public DealRequestDTO {
+        if (fromCurrencyIsoCode != null) fromCurrencyIsoCode = fromCurrencyIsoCode.toUpperCase();
+        if (toCurrencyIsoCode != null) toCurrencyIsoCode = toCurrencyIsoCode.toUpperCase();
+    }
 }

@@ -2,6 +2,7 @@ package com.progresssoft.warehouse.service.impl;
 
 
 import com.progresssoft.warehouse.dto.DealRequestDTO;
+import com.progresssoft.warehouse.dto.FailedDealDTO;
 import com.progresssoft.warehouse.dto.ImportReportDTO;
 import com.progresssoft.warehouse.mapper.DealMapper;
 import com.progresssoft.warehouse.model.Deal;
@@ -36,29 +37,37 @@ public class DealServiceImpl implements IDealService {
         AtomicInteger total = new AtomicInteger(deals.size());
         AtomicInteger sucess = new AtomicInteger();
         AtomicInteger duplicates = new AtomicInteger();
-        List<DealRequestDTO> failedDeals = new ArrayList<>();
+        List<FailedDealDTO> failedDeals = new ArrayList<>();
+
+        List<String> incomingIds = deals.stream().map(DealRequestDTO::dealUniqueId).toList();
+        Set<String> existingIds = dealRepository.findExistingIds(incomingIds);
+
 
         deals.forEach(dto -> {
 
             try {
 
-                Set<ConstraintViolation<DealRequestDTO>> violations = validator.validate(dto);
-                if (!violations.isEmpty()) {
-                    String error = violations.iterator().next().getMessage();
-                    log.error("Validation failed for deal {}: {}", dto.dealUniqueId(), error);
-                    failedDeals.add(dto);
+                if (existingIds.contains(dto.dealUniqueId())) {
+                    duplicates.getAndIncrement();
+                    failedDeals.add(new FailedDealDTO(dto, "Deal exists") );
                     return;
                 }
 
-                if (dealRepository.existsByDealUniqueId(dto.dealUniqueId())) {
-                    log.warn("Deal with ID {} already exists. Skipping...", dto.dealUniqueId());
-                    duplicates.getAndIncrement();
+                Set<ConstraintViolation<DealRequestDTO>> violations = validator.validate(dto);
+
+                if (!violations.isEmpty()) {
+                    String errorMsg = violations.iterator().next().getMessage();
+                    log.error("Validation failed for deal {}: {}", dto.dealUniqueId(), errorMsg);
+                    failedDeals.add(new FailedDealDTO(dto, errorMsg));
                     return;
                 }
+
 
                 Deal deal = dealMapper.toEntity(dto);
 
                 dealRepository.save(deal);
+
+                existingIds.add(dto.dealUniqueId());
 
                 sucess.getAndIncrement();
 
@@ -66,14 +75,15 @@ public class DealServiceImpl implements IDealService {
 
             } catch (Exception e) {
                 log.error("Failed to save deal {}: {}", dto.dealUniqueId(), e.getMessage());
-                failedDeals.add(dto);
+                failedDeals.add(new FailedDealDTO(dto, e.getMessage()));
             }
         });
         log.info("Finished processing batch.");
+
         return new ImportReportDTO(
-                total,
-                sucess,
-                duplicates,
+                total.get(),
+                sucess.get(),
+                duplicates.get(),
                 failedDeals
 
         );
