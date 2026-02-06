@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: warehouse-db
+    environment:
+      POSTGRES_DB: bloomberg_warehouse
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - warehouse-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: warehouse-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/bloomberg_warehouse
+      USERNAME: postgres
+      PASSWORD: password123
+      LOGGING_FILE_NAME: /logs/warehouse-app.log
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./logs:/logs
+    networks:
+      - warehouse-network
+
+volumes:
+  postgres-data:
+
+networks:
+  warehouse-network:
