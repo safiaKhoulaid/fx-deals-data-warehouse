@@ -1,6 +1,7 @@
 package com.progresssoft.warehouse.service;
 
 import com.progresssoft.warehouse.dto.DealRequestDTO;
+import com.progresssoft.warehouse.dto.ImportReportDTO;
 
 import java.util.List;
 
@@ -16,8 +17,7 @@ public interface IDealService {
      * * @param deals List of deal DTOs to be imported.
      */
 
-  void importDeals(List<DealRequestDTO> deals) ;
-
+    ImportReportDTO importDeals(List<DealRequestDTO> deals);
 
 
 }
