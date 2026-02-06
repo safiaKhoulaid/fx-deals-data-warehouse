@@ -7,12 +7,15 @@ import com.progresssoft.warehouse.mapper.DealMapper;
 import com.progresssoft.warehouse.model.Deal;
 import com.progresssoft.warehouse.repository.DealRepository;
 import com.progresssoft.warehouse.service.IDealService;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -22,9 +25,12 @@ public class DealServiceImpl implements IDealService {
 
     private final DealRepository dealRepository;
     private final DealMapper dealMapper;
+    private final Validator validator;
+
 
     @Override
     public ImportReportDTO importDeals(List<DealRequestDTO> deals) {
+
         log.info("Starting processing of {} deals", deals.size());
 
         AtomicInteger total = new AtomicInteger(deals.size());
@@ -35,6 +41,14 @@ public class DealServiceImpl implements IDealService {
         deals.forEach(dto -> {
 
             try {
+
+                Set<ConstraintViolation<DealRequestDTO>> violations = validator.validate(dto);
+                if (!violations.isEmpty()) {
+                    String error = violations.iterator().next().getMessage();
+                    log.error("Validation failed for deal {}: {}", dto.dealUniqueId(), error);
+                    failedDeals.add(dto);
+                    return;
+                }
 
                 if (dealRepository.existsByDealUniqueId(dto.dealUniqueId())) {
                     log.warn("Deal with ID {} already exists. Skipping...", dto.dealUniqueId());
@@ -49,7 +63,6 @@ public class DealServiceImpl implements IDealService {
                 sucess.getAndIncrement();
 
                 log.info("Successfully saved deal: {}", dto.dealUniqueId());
-
 
             } catch (Exception e) {
                 log.error("Failed to save deal {}: {}", dto.dealUniqueId(), e.getMessage());

@@ -1,6 +1,7 @@
 package com.progresssoft.warehouse.utils;
 
 import com.progresssoft.warehouse.dto.DealRequestDTO;
+import com.progresssoft.warehouse.exception.customException.CsvImportException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,10 @@ public class CsvParser {
 
     public List<DealRequestDTO> parseDeals(MultipartFile file) {
 
+        if (file.isEmpty()) {
+            throw new CsvImportException("Cannot process an empty CSV file."); // Throw hna
+        }
+
         try (var reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
 
             return reader
@@ -28,7 +33,7 @@ public class CsvParser {
                     .filter(Objects::nonNull)
                     .toList();
         } catch (Exception e) {
-            throw new RuntimeException("Critical error reading CSV file : {}" + e.getMessage());
+            throw new CsvImportException("Critical error reading CSV file : {}" + e.getMessage());
         }
     }
 
