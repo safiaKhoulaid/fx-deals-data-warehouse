@@ -1,6 +1,7 @@
 package com.progresssoft.warehouse.controllers;
 
 import com.progresssoft.warehouse.dto.DealRequestDTO;
+import com.progresssoft.warehouse.dto.ImportReportDTO;
 import com.progresssoft.warehouse.service.IDealService;
 import com.progresssoft.warehouse.utils.CsvParser;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,10 @@ public class DealController {
      */
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> importDeals(@RequestBody List<DealRequestDTO> deals) {
+    public ResponseEntity<ImportReportDTO> importDeals(@RequestBody List<DealRequestDTO> deals) {
 
-        iDealService.importDeals(deals);
-        return ResponseEntity.ok().build();
+        ImportReportDTO report = iDealService.importDeals(deals);
+        return ResponseEntity.ok(report);
     }
 
 
@@ -35,10 +36,10 @@ public class DealController {
      * Import via CSV
      */
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> uploadCsv(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ImportReportDTO> uploadCsv(@RequestParam("file") MultipartFile file) {
         List<DealRequestDTO> deals = csvParser.parseDeals(file);
-        iDealService.importDeals(deals);
-        return ResponseEntity.ok().build();
+        ImportReportDTO report = iDealService.importDeals(deals);
+        return ResponseEntity.ok(report);
     }
 
 }
