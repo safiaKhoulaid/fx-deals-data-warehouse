@@ -1,18 +1,23 @@
 package com.progresssoft.warehouse.service;
 
 import com.progresssoft.warehouse.dto.DealRequestDTO;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+/**
+ * Service interface for handling FX deals business logic.
+ * Follows SRP by focusing only on data validation and persistence.
+ */
+
 public interface DealService {
 
-    //Import deals from a json list
+    /**
+     * Processes a list of deals, ensuring idempotency and resilience (No Rollback).
+     * * @param deals List of deal DTOs to be imported.
+     */
 
-    void importJson(List<DealRequestDTO> deals);
+  void importDeals(List<DealRequestDTO> deals) ;
 
-    //Import deals from a csv file
 
-    void importCsv(MultipartFile file);
 
 }
